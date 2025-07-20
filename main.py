@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Query
 from jobspy import scrape_jobs
-from typing import Optional, List
+from typing import Optional
 import pandas as pd
+import numpy as np
 
 app = FastAPI(title="JobSpy API", description="Scrape jobs from multiple job boards using JobSpy")
 
@@ -20,10 +21,9 @@ def get_jobs(
     is_remote: Optional[bool] = Query(False, description="True for remote jobs only")
 ):
     try:
-        # Parse sites into list
         site_list = [s.strip() for s in sites.split(",")]
 
-        # Perform scraping
+        # Scrape jobs
         jobs = scrape_jobs(
             site_name=site_list,
             search_term=query,
@@ -35,8 +35,8 @@ def get_jobs(
             country_indeed="USA"
         )
 
-        # Replace NaN with None for valid JSON
-        jobs = jobs.replace({float("nan"): None})
+        # ✅ Replace NaN with None (JSON-compliant)
+        jobs = jobs.replace({np.nan: None})
 
         return {
             "status": "success",
