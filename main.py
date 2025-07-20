@@ -4,11 +4,11 @@ from typing import Optional
 import pandas as pd
 import numpy as np
 
-app = FastAPI(title="JobSpy API", description="Scrape jobs from multiple job boards using JobSpy")
+app = FastAPI(title="Coogi JobSpy API", description="Scrape jobs from multiple job boards using Coogi")
 
 @app.get("/")
 def home():
-    return {"status": "JobSpy API is running!"}
+    return {"status": "Coogi JobSpy API is running!"}
 
 @app.get("/jobs")
 def get_jobs(
